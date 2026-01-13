@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+  <body>
+
+  <div id="app">
+    <header>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <img src="logo.png" alt="Logo" class="pic">
+      <h1>MAILBOX</h1>
+    </header>
+
+    <div class="container">
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <h2 class="workspace-title">Workspace</h2>
+          <button class="create-btn">
+            <span class="icon"></span>
+            Buat Surat
+          </button>
+        </div>
+
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon"></span>
+            Project
+          </a>
+          <a href="asset.html" class="nav-item active">
+            <span class="nav-icon"></span>
+            Asset
+          </a>
+          <a href="template.html" class="nav-item">
+            <span class="nav-icon"></span>
+            Template
+          </a>
+        </nav>
+
+        <div class="nav-menu-bottom">
+          <a href="#" class="nav-item">
+            <span class="nav-icon"></span>
+            Recent
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon"></span>
+            Trash
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-icon"></span>
+            Help
+          </a>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <div class="content-header">
+          <button class="star-btn">
+            <span class="icon"></span>
+            Star
+          </button>
+          <div class="search-container">
+            <input type="text" placeholder="Cari nama projectmu" class="search-input">
+            <span class="search-icon"></span>
+          </div>
+        </div>
+        <div class="content-body">
+          <p class="empty-message">Fitur is on progress...</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const header = document.querySelector('header');
+
+    function updateSidebarPosition() {
+      if (window.innerWidth <= 768 && header && sidebar) {
+        const headerHeight = header.offsetHeight;
+        sidebar.style.top = headerHeight + 'px';
+        sidebar.style.height = `calc(100vh - ${headerHeight}px)`;
+      } else if (sidebar) {
+        sidebar.style.top = '';
+        sidebar.style.height = '';
+      }
+    }
+
+    window.addEventListener('load', updateSidebarPosition);
+    window.addEventListener('resize', updateSidebarPosition);
+
+    if (menuToggle && sidebar) {
+      const toggleMenu = () => {
+        sidebar.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+        if (sidebarOverlay) {
+          sidebarOverlay.classList.toggle('active');
+        }
+      };
+
+      menuToggle.addEventListener('click', toggleMenu);
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            sidebar.classList.remove('active');
+            menuToggle.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+          }
+        });
+      }
+
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          const clickedOverlay = sidebarOverlay && sidebarOverlay.contains(e.target);
+          if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && !clickedOverlay) {
+            sidebar.classList.remove('active');
+            menuToggle.classList.remove('active');
+            if (sidebarOverlay) {
+              sidebarOverlay.classList.remove('active');
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
