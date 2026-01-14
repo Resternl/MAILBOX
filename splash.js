@@ -10,7 +10,7 @@ window.addEventListener("load", () => {
     splash.classList.add("hide");
 
     setTimeout(() => {
-      window.location.href = "index.html";
+      window.location.href = "project.html";
     }, 800);
 
   }, 2500);
