@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAILBOX - Buat Surat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="letterEditor" class="letter-editor">
+    <header>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <img src="logo.png" alt="Logo" class="pic">
+      <h1>MAILBOX</h1> <h2> > project</h2>
+    </header>
+    
+    <div class="editor-content">
+      <div class="canvas-container">
+        <div id="letterCanvas" class="letter-canvas" contenteditable="true"></div>
+      </div>
+      
+      <div class="toolbar">
+        <button class="toolbar-btn" id="sendBtn" title="Send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+        <button class="toolbar-btn" id="shapeBtn" title="Shape">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          </svg>
+        </button>
+        <button class="toolbar-btn" id="textBtn" title="Text">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+            <line x1="9" y1="20" x2="15" y2="20"></line>
+            <line x1="12" y1="4" x2="12" y2="20"></line>
+          </svg>
+        </button>
+        <button class="toolbar-btn" id="templateBtn" title="Template">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const letterCanvas = document.getElementById('letterCanvas');
+    const textBtn = document.getElementById('textBtn');
+    const letterEditor = document.getElementById('letterEditor');
+
+    // Fokus ke canvas saat halaman dimuat
+    window.addEventListener('load', () => {
+      if (letterCanvas) {
+        letterCanvas.focus();
+      }
+    });
+
+    // Fungsi Text Button
+    if (textBtn && letterCanvas) {
+      textBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        letterCanvas.focus();
+        
+        // Fokus ke akhir teks atau ke awal jika kosong
+        setTimeout(() => {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(letterCanvas);
+          range.collapse(false);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }, 0);
+      });
+    }
+
+    // Close editor saat klik di background (bukan di canvas atau toolbar)
+    if (letterEditor) {
+      const editorContent = letterEditor.querySelector('.editor-content');
+      letterEditor.addEventListener('click', (e) => {
+        // Hanya tutup jika klik langsung di editor header background atau di luar semua elemen
+        if (e.target === letterEditor || (e.target === editorContent && e.target === e.currentTarget)) {
+          // Redirect kembali ke project.html
+          window.location.href = 'project.html';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+
